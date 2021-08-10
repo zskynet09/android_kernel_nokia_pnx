@@ -37,32 +37,6 @@ static const char *panelname;
 
 #define MIPI_DCS_SET_DISPLAYPIXELOFF 0x22
 #define DISPLAY_OFF_DELAY_MS 40
-#define BBOX_LCM_DISPLAY_OFF_FAIL do {printk("BBox;%s: Display off fail!\n", __func__); printk("BBox::UEC;0::3\n");} while (0);
-
-#define DISPLAY_STD_LOG_EL(PreviousBl,x)       \
-	do { \
-		if(PreviousBl ==0){ \
-			printk("BBox::STD;140700|Display|Enable|BacklightOn|%d\n",x); \
-			printk("BBox::STD;140700|P_LCM|UnCoverOn|All|%d\n",x); \
-			printk("BBox::STD;140700|FP_LCM|UnLockOn|All|%d\n",x); \
-			printk("BBox::STD;140700|Touch|DoubleTap|All|%d\n",x); \
-			printk("BBox::STD;140700|Display|Enable|All|%d\n",x); \
-		} \
-	} while (0)
-
-#define DISPLAY_STD_LOG_P_LCM(Bl,x)       \
-	do { \
-		if(Bl ==0){ \
-			printk("BBox::STD;140700|P_LCM|UnCoverOff|All|%d\n",x); \
-		} \
-	} while (0)
-
-#define DISPLAY_STD_LOG_BL(PreviousBl,x)       \
-	do { \
-		if(PreviousBl ==0){ \
-			printk("BBox::STD;140700|Display|Enable|BacklightOn|%d\n",x); \
-		} \
-	} while (0)
 
 extern char *saved_command_line;
 
@@ -140,9 +114,6 @@ void dsi_panel_show_brightness(u32 bl_lvl)
 {
 	if ((bl_lvl == 0) || ((previous_bl_level == 0) && (bl_lvl != 0))){
 		pr_err("level=%d\n", bl_lvl);
-		printk("BBox::EHCS;51401:i:Backlight status=%d\n", (bl_lvl == 0)?0:1);
-		DISPLAY_STD_LOG_EL(previous_bl_level,1);
-		DISPLAY_STD_LOG_P_LCM(bl_lvl,1);
 	}
 	previous_bl_level = bl_lvl;
 	return;
@@ -159,7 +130,6 @@ void dsi_panel_power_off_reset_timing(struct dsi_panel *panel)
 
 int get_Display_ID(void)
 {
-	printk("BBox::STD;151200|%s\n",panelname);
 	return g_panel_id;
 }
 EXPORT_SYMBOL(get_Display_ID);
@@ -203,10 +173,6 @@ int dsi_display_pixel_early_off(struct dsi_panel *panel,u32 bl_lvl)
 
 	dsi = &panel->mipi_device;
 
-	//pr_info(">>>bl_lvl(%d),previous_bl_level(%d)<<<panel_initialized=(%d)>>pixel_early_control=%d<<\n",bl_lvl,previous_bl_level,panel->panel_initialized,panel->pixel_early_control);
-
-	DISPLAY_STD_LOG_BL(previous_bl_level,0);
-
 	if(panel->panel_initialized && bl_lvl==0){
 		pr_err("++\n");
 		rc = mipi_dsi_dcs_write(dsi, MIPI_DCS_SET_DISPLAYOFF,
@@ -215,7 +181,6 @@ int dsi_display_pixel_early_off(struct dsi_panel *panel,u32 bl_lvl)
 		usleep_range(DISPLAY_OFF_DELAY_MS*1000,DISPLAY_OFF_DELAY_MS*1000);
 		pr_err("--\n");
 	}else if(panel->panel_initialized && panel->pixel_early_control && bl_lvl!=0 &&previous_bl_level==0){
-		//rc = dsi_panel_enable(panel);
 		pr_err("Early on pixel ++\n");
 		rc = mipi_dsi_dcs_write(dsi, MIPI_DCS_SET_DISPLAYON,
 				 &payload, sizeof(payload));
@@ -230,7 +195,6 @@ int dsi_display_pixel_early_off(struct dsi_panel *panel,u32 bl_lvl)
 	if(rc){
 		pr_err("[%s] failed to send DSI_CMD_SET_OFF cmds, rc=%d\n",
 		       panel->name, rc);
-		BBOX_LCM_DISPLAY_OFF_FAIL;
 		goto error;
 	}
 

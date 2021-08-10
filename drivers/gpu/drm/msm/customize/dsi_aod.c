@@ -129,7 +129,6 @@ int dsi_display_set_power(struct drm_connector *connector,
 	dsi = &display->panel->mipi_device;
 
 	pr_err("Panel Power Mode (%d)\n",power_mode);
-	printk("BBox::EHCS;51301:i:LCM Power Mode=%d\n", power_mode);
 
 	rc = dsi_display_set_power_by_panel(display,dsi,power_mode,display->panel->panel_id);
 

@@ -33,8 +33,6 @@ extern struct fih_touch_cb touch_cb;
 #define DSI_POWER_DISABLE 0
 #define DSI_POWER_ENABLE 1
 
-#define BBOX_LCM_POWER_STATUS_FAIL do {printk("BBox;%s: Power status fail!\n", __func__); printk("BBox::UEC;0::6\n");} while (0);
-
 int dsi_panel_customize_reset_state(struct dsi_panel *panel)
 {
 	int rc=0,PanelID=0;
@@ -100,7 +98,6 @@ int dsi_panel_customize_pwr_state(struct dsi_panel *panel,bool enable)
 					rc = dsi_pwr_enable_regulator(&panel->power_info, true);
 					if (rc) {
 						pr_err("[%s] failed to enable vregs, rc=%d\n", panel->name, rc);
-						BBOX_LCM_POWER_STATUS_FAIL;
 					}
 					panel->power_on_initial=DSI_POWER_ENABLE;
 					pr_info("Enable LCM Power\n");
@@ -119,7 +116,6 @@ int dsi_panel_customize_pwr_state(struct dsi_panel *panel,bool enable)
 					rc = dsi_pwr_enable_regulator(&panel->power_info, false);
 					if (rc) {
 						pr_err("[%s] failed to enable vregs, rc=%d\n", panel->name, rc);
-						BBOX_LCM_POWER_STATUS_FAIL;
 					}
 					panel->power_on_initial=DSI_POWER_DISABLE;
 				}
