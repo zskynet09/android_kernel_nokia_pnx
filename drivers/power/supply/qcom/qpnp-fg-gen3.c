@@ -26,9 +26,6 @@
 #include <linux/qpnp/qpnp-misc.h>
 #include "fg-core.h"
 #include "fg-reg.h"
-#if defined(CONFIG_FIH_BATTERY)
-#include "fih-battery-bbs.h"
-#endif /* CONFIG_FIH_BATTERY */
 
 #define FG_GEN3_DEV_NAME	"qcom,fg-gen3"
 
@@ -1046,10 +1043,6 @@ static int fg_get_batt_profile(struct fg_chip *chip)
 		return -ENXIO;
 	}
 
-#if defined(CONFIG_FIH_BATTERY) && defined(BBS_LOG)
-	BBS_BATTERY_ID(chip->batt_id_ohms);
-#endif /* CONFIG_FIH_BATTERY */
-
 	profile_node = of_batterydata_get_best_profile(batt_node,
 				chip->batt_id_ohms / 1000, NULL);
 	if (IS_ERR(profile_node))
@@ -1057,9 +1050,6 @@ static int fg_get_batt_profile(struct fg_chip *chip)
 
 	if (!profile_node) {
 		pr_err("couldn't find profile handle\n");
-#if defined(CONFIG_FIH_BATTERY) && defined(BBS_LOG)
-		BBS_BATTERY_ID_MISS();
-#endif /* CONFIG_FIH_BATTERY */
 		return -ENODATA;
 	}
 
@@ -1447,13 +1437,6 @@ static int fg_load_learned_cap_from_sram(struct fg_chip *chip)
 
 	fg_dbg(chip, FG_CAP_LEARN, "learned_cc_uah:%lld nom_cap_uah: %lld\n",
 		chip->cl.learned_cc_uah, chip->cl.nom_cap_uah);
-#if defined(CONFIG_FIH_BATTERY) && defined(BBS_LOG)
-	BBS_BATTERY_FCC_MAX(div64_s64(chip->cl.nom_cap_uah, 1000));
-	if (div64_s64(chip->cl.learned_cc_uah * 100, chip->cl.nom_cap_uah) < 70) {
-		BBS_BATTERY_AGING();
-		BBS_BATTERY_FCC(div64_s64(chip->cl.learned_cc_uah, 1000));
-	}
-#endif /* CONFIG_FIH_BATTERY */
 	return 0;
 }
 
@@ -3286,9 +3269,7 @@ wait:
 			BATT_SOC_RESTART(chip), rc);
 		goto out;
 	}
-#if defined(CONFIG_FIH_BATTERY) && defined(BBS_LOG)
-	BBS_FG_RESET();
-#endif /* CONFIG_FIH_BATTERY */
+
 out:
 	chip->fg_restarting = false;
 	return rc;
@@ -4824,9 +4805,6 @@ static irqreturn_t fg_vbatt_low_irq_handler(int irq, void *data)
 	struct fg_chip *chip = data;
 
 	fg_dbg(chip, FG_IRQ, "irq %d triggered\n", irq);
-#if defined(CONFIG_FIH_BATTERY) && defined(BBS_LOG)
-	BBS_BATTERY_VOLTAGE_LOW();
-#endif /* CONFIG_FIH_BATTERY */
 	return IRQ_HANDLED;
 }
 
@@ -4912,10 +4890,6 @@ static irqreturn_t fg_delta_batt_temp_irq_handler(int irq, void *data)
 
 		chip->last_batt_temp = batt_temp;
 		power_supply_changed(chip->batt_psy);
-#if defined(CONFIG_FIH_BATTERY) && defined(BBS_LOG)
-		if (batt_temp >= 600)
-			BBS_BATTERY_REACH_SHUTDOWN_TEMPERATURE();
-#endif /* CONFIG_FIH_BATTERY */
 	}
 
 	if (abs(chip->last_batt_temp - batt_temp) > 30)

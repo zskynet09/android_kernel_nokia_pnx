@@ -54,8 +54,6 @@ static int cam_eeprom_write_memory(struct cam_eeprom_ctrl_t *e_ctrl, uint8_t *bu
 	rc = cam_eeprom_update_i2c_info(e_ctrl,&eb_info->i2c_info);
 	if (rc) {
 		CAM_ERR(CAM_EEPROM, "failed: to update i2c info rc %d", rc);
-		printk("BBox;%s:failed: to update i2c info\n", __func__);/* MM-CCC-AddCameraBBS-201800607-00+ */
-		printk("BBox::UEC;9::13\n");/* MM-CCC-AddCameraBBS-201800607-00+ */
 		return rc;
 	}
 
@@ -90,8 +88,6 @@ static int cam_eeprom_write_memory(struct cam_eeprom_ctrl_t *e_ctrl, uint8_t *bu
 		CAM_ERR(CAM_EEPROM,
 			"failed: to update i2c info rc %d",
 			rc);
-		printk("BBox;%s:failed: to update i2c info\n", __func__);/* MM-CCC-AddCameraBBS-201800607-00+ */
-		printk("BBox::UEC;9::13\n");/* MM-CCC-AddCameraBBS-201800607-00+ */
 		return rc;
 	}
 	if(e_ctrl->io_master_info.cci_client->sid != (0xA0 >> 1)){
@@ -126,8 +122,6 @@ static int cam_eeprom_write_memory(struct cam_eeprom_ctrl_t *e_ctrl, uint8_t *bu
 		CAM_ERR(CAM_EEPROM,
 			"failed: to update i2c info rc %d",
 			rc);
-		printk("BBox;%s:failed: to update i2c info\n", __func__);/* MM-CCC-AddCameraBBS-201800607-00+ */
-		printk("BBox::UEC;9::13\n");/* MM-CCC-AddCameraBBS-201800607-00+ */
 		return rc;
 	}
 	
@@ -159,8 +153,6 @@ static int cam_eeprom_write_memory(struct cam_eeprom_ctrl_t *e_ctrl, uint8_t *bu
 		CAM_ERR(CAM_EEPROM,
 			"failed: to update i2c info rc %d",
 			rc);
-		printk("BBox;%s:failed: to update i2c info\n", __func__);/* MM-CCC-AddCameraBBS-201800607-00+ */
-		printk("BBox::UEC;9::13\n");/* MM-CCC-AddCameraBBS-201800607-00+ */
 		return rc;
 	}
 	if(e_ctrl->io_master_info.cci_client->sid != (0xA0 >> 1)){
@@ -222,8 +214,6 @@ static int cam_eeprom_read_memory(struct cam_eeprom_ctrl_t *e_ctrl,
 				CAM_ERR(CAM_EEPROM,
 					"failed: to update i2c info rc %d",
 					rc);
-				printk("BBox;%s:failed: to update i2c info\n", __func__);/* MM-CCC-AddCameraBBS-201800607-00+ */
-				printk("BBox::UEC;9::13\n");/* MM-CCC-AddCameraBBS-201800607-00+ */
 				return rc;
 			}
 		}
@@ -242,8 +232,6 @@ static int cam_eeprom_read_memory(struct cam_eeprom_ctrl_t *e_ctrl,
 			if (rc) {
 				CAM_ERR(CAM_EEPROM, "page write failed rc %d",
 					rc);
-				printk("BBox;%s:page write failed\n", __func__);/* MM-CCC-AddCameraBBS-201800607-00+ */
-				printk("BBox::UEC;9::13\n");/* MM-CCC-AddCameraBBS-201800607-00+ */
 				return rc;
 			}
 		}
@@ -262,8 +250,6 @@ static int cam_eeprom_read_memory(struct cam_eeprom_ctrl_t *e_ctrl,
 			if (rc) {
 				CAM_ERR(CAM_EEPROM, "page enable failed rc %d",
 					rc);
-				printk("BBox;%s:page enable failed\n", __func__);/* MM-CCC-AddCameraBBS-201800607-00+ */
-				printk("BBox::UEC;9::13\n");/* MM-CCC-AddCameraBBS-201800607-00+ */
 				return rc;
 			}
 		}
@@ -278,8 +264,6 @@ static int cam_eeprom_read_memory(struct cam_eeprom_ctrl_t *e_ctrl,
 			if (rc) {
 				CAM_ERR(CAM_EEPROM, "poll failed rc %d",
 					rc);
-				printk("BBox;%s:poll failed\n", __func__);/* MM-CCC-AddCameraBBS-201800607-00+ */
-				printk("BBox::UEC;9::13\n");/* MM-CCC-AddCameraBBS-201800607-00+ */
 				return rc;
 			}
 		}
@@ -293,8 +277,6 @@ static int cam_eeprom_read_memory(struct cam_eeprom_ctrl_t *e_ctrl,
 			if (rc) {
 				CAM_ERR(CAM_EEPROM, "read failed rc %d",
 					rc);
-				printk("BBox;%s:read failed\n", __func__);/* MM-CCC-AddCameraBBS-201800607-00+ */
-				printk("BBox::UEC;9::13\n");/* MM-CCC-AddCameraBBS-201800607-00+ */
 				return rc;
 			}
 			//FIH add for arcsoft recalibration
@@ -396,8 +378,6 @@ static int cam_eeprom_read_memory(struct cam_eeprom_ctrl_t *e_ctrl,
 								if (rc) {
 									CAM_ERR(CAM_EEPROM, "read failed rc %d",
 										rc);
-									printk("BBox;%s:read failed\n", __func__);/* MM-CCC-AddCameraBBS-201800607-00+ */
-									printk("BBox::UEC;9::13\n");/* MM-CCC-AddCameraBBS-201800607-00+ */
 									return rc;
 								}
                                 memcpy(memptr, buffer, emap[j].mem.valid_size);
@@ -450,8 +430,6 @@ static int cam_eeprom_read_memory(struct cam_eeprom_ctrl_t *e_ctrl,
 				CAM_ERR(CAM_EEPROM,
 					"page disable failed rc %d",
 					rc);
-				printk("BBox;%s:page disable failed\n", __func__);/* MM-CCC-AddCameraBBS-201800607-00+ */
-				printk("BBox::UEC;9::13\n");/* MM-CCC-AddCameraBBS-201800607-00+ */
 				return rc;
 			}
 		}

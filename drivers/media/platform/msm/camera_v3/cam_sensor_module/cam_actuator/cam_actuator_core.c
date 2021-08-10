@@ -112,8 +112,6 @@ static int32_t cam_actuator_power_up(struct cam_actuator_ctrl_t *a_ctrl)
 	if (rc) {
 		CAM_ERR(CAM_ACTUATOR,
 			"failed in actuator power up rc %d", rc);
-        printk("BBox;%s:actuator power up fail\n", __func__);/* MM-CCC-AddCameraBBS-201800607-00+ */
-		printk("BBox::UEC;9::11\n");/* MM-CCC-AddCameraBBS-201800607-00+ */
 		return rc;
 	}
 
@@ -148,8 +146,6 @@ static int32_t cam_actuator_power_down(struct cam_actuator_ctrl_t *a_ctrl)
 	rc = cam_sensor_util_power_down(power_info, soc_info);
 	if (rc) {
 		CAM_ERR(CAM_ACTUATOR, "power down the core is failed:%d", rc);
-        printk("BBox;%s:actuator power down fail\n", __func__);/* MM-CCC-AddCameraBBS-201800607-00+ */
-		printk("BBox::UEC;9::11\n");/* MM-CCC-AddCameraBBS-201800607-00+ */
 		return rc;
 	}
 
@@ -172,8 +168,6 @@ static int32_t cam_actuator_i2c_modes_util(
 			CAM_ERR(CAM_ACTUATOR,
 				"Failed to random write I2C settings: %d",
 				rc);
-            printk("BBox;%s:actuator i2c write fail\n", __func__);/* MM-CCC-AddCameraBBS-201800607-00+ */
-            printk("BBox::UEC;9::12\n");/* MM-CCC-AddCameraBBS-201800607-00+ */
 			return rc;
 		}
 	} else if (i2c_list->op_code == CAM_SENSOR_I2C_WRITE_SEQ) {
@@ -185,8 +179,6 @@ static int32_t cam_actuator_i2c_modes_util(
 			CAM_ERR(CAM_ACTUATOR,
 				"Failed to seq write I2C settings: %d",
 				rc);
-            printk("BBox;%s:actuator i2c seq write fail\n", __func__);/* MM-CCC-AddCameraBBS-201800607-00+ */
-            printk("BBox::UEC;9::12\n");/* MM-CCC-AddCameraBBS-201800607-00+ */
 			return rc;
 			}
 	} else if (i2c_list->op_code == CAM_SENSOR_I2C_WRITE_BURST) {
@@ -198,8 +190,6 @@ static int32_t cam_actuator_i2c_modes_util(
 			CAM_ERR(CAM_ACTUATOR,
 				"Failed to burst write I2C settings: %d",
 				rc);
-            printk("BBox;%s:actuator i2c burst write fail\n", __func__);/* MM-CCC-AddCameraBBS-201800607-00+ */
-            printk("BBox::UEC;9::12\n");/* MM-CCC-AddCameraBBS-201800607-00+ */
 			return rc;
 		}
 	} else if (i2c_list->op_code == CAM_SENSOR_I2C_POLL) {

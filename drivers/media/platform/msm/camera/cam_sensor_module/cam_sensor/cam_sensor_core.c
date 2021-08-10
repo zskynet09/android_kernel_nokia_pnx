@@ -571,15 +571,11 @@ int cam_sensor_match_id(struct cam_sensor_ctrl_t *s_ctrl)
         if(2 == source_count){
             if(expected_id == slave_info->sensor_id){
                 expected_id = 0;
-                printk("BBox;%s:read id %d match id fail\n", __func__, chipid);/* MM-CCC-AddCameraBBS-201800607-00+ */
-                printk("BBox::UEC;9::16\n");/* MM-CCC-AddCameraBBS-201800607-00+ */
+
             }else{
                 expected_id = slave_info->sensor_id;
                 CAM_INFO(CAM_SENSOR, "backup expected sensor id: 0x%x", expected_id);
             }
-        }else{
-            printk("BBox;%s:read id %d match id fail\n", __func__, chipid);/* MM-CCC-AddCameraBBS-201800607-00+ */
-            printk("BBox::UEC;9::16\n");/* MM-CCC-AddCameraBBS-201800607-00+ */
         }
         return -ENODEV;
     }
@@ -1054,8 +1050,6 @@ int cam_sensor_power_up(struct cam_sensor_ctrl_t *s_ctrl)
 	rc = cam_sensor_core_power_up(power_info, soc_info);
 	if (rc < 0) {
 		CAM_ERR(CAM_SENSOR, "power up the core is failed:%d", rc);
-        printk("BBox;%s:power up fail\n", __func__);/* MM-CCC-AddCameraBBS-201800607-00+ */
-		printk("BBox::UEC;9::10\n");/* MM-CCC-AddCameraBBS-201800607-00+ */
 		return rc;
 	}
 
@@ -1087,8 +1081,6 @@ int cam_sensor_power_down(struct cam_sensor_ctrl_t *s_ctrl)
 	rc = msm_camera_power_down(power_info, soc_info);
 	if (rc < 0) {
 		CAM_ERR(CAM_SENSOR, "power down the core is failed:%d", rc);
-        printk("BBox;%s:power down fail\n", __func__);/* MM-CCC-AddCameraBBS-201800607-00+ */
-		printk("BBox::UEC;9::10\n");/* MM-CCC-AddCameraBBS-201800607-00+ */
 		return rc;
 	}
 

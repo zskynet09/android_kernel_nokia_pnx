@@ -55,10 +55,6 @@ MODULE_DEVICE_TABLE(of, msm_match_table);
 #define FIH_FTM_CUSTOMIZED
 /* For FIH MultiNFC solution */
 /* #define FIH_MULTI_NFC */
-#define BBSLOG
-#ifdef BBSLOG
-#define NFC_READ_ERROR do {printk("BBox;%s: NCI cmd transfer failure\n", __func__); printk("BBox::UEC;16::0");} while(0)
-#endif
 
 
 struct nqx_dev {
@@ -259,9 +255,6 @@ static ssize_t nfc_read(struct file *filp, char __user *buf,
 	if (ret < 0) {
 		dev_err(&nqx_dev->client->dev,
 			"%s: i2c_master_recv returned %d\n", __func__, ret);
-	    #ifdef BBSLOG
-		NFC_READ_ERROR;
-	    #endif
 		goto err;
 	}
 	if (ret > count) {

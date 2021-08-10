@@ -362,8 +362,6 @@ int cam_flash_apply_setting(struct cam_flash_ctrl *fctrl,
 				{/* MM-CCC-AddCameraBBS-201800607-00*{ */
 					CAM_ERR(CAM_FLASH,
 						"FLASH ON failed : %d", rc);
-                    printk("BBox;%s:flash on fail\n", __func__);
-					printk("BBox::UEC;9::14\n");
 				}/* MM-CCC-AddCameraBBS-201800607-00+*} */
 		    }
 			if (flash_data->opcode ==
@@ -394,8 +392,7 @@ int cam_flash_apply_setting(struct cam_flash_ctrl *fctrl,
 					CAM_ERR(CAM_FLASH,
 					"LED OFF FAILED: %d",
 					rc);
-                    printk("BBox;%s:led off fail\n", __func__);/* MM-CCC-AddCameraBBS-201800607-00+ */
-					printk("BBox::UEC;9::14\n");/* MM-CCC-AddCameraBBS-201800607-00+ */
+
 					return rc;
 				}
 				if ((fctrl->flash_state ==
@@ -422,8 +419,6 @@ int cam_flash_apply_setting(struct cam_flash_ctrl *fctrl,
 					CAM_ERR(CAM_FLASH,
 						"Torch ON failed : %d",
 						rc);
-                    printk("BBox;%s:torch on fail\n", __func__);/* MM-CCC-AddCameraBBS-201800607-00+ */
-					printk("BBox::UEC;9::14\n");/* MM-CCC-AddCameraBBS-201800607-00+ */
 					goto nrt_del_req;
 				}
 			} else if (flash_data->opcode ==
@@ -433,8 +428,6 @@ int cam_flash_apply_setting(struct cam_flash_ctrl *fctrl,
 					CAM_ERR(CAM_FLASH,
 					"LED off failed: %d",
 					rc);
-					printk("BBox;%s:led off fail\n", __func__);/* MM-CCC-AddCameraBBS-201800607-00+ */
-					printk("BBox::UEC;9::14\n");/* MM-CCC-AddCameraBBS-201800607-00+ */
 			}
 		} else if (fctrl->nrt_info.cmn_attr.cmd_type ==
 			CAMERA_SENSOR_FLASH_CMD_TYPE_RER) {
@@ -446,8 +439,7 @@ int cam_flash_apply_setting(struct cam_flash_ctrl *fctrl,
 					CAM_ERR(CAM_FLASH,
 						"Flash off failed: %d",
 						rc);
-                    printk("BBox;%s:flash off fail\n", __func__);/* MM-CCC-AddCameraBBS-201800607-00+ */
-					printk("BBox::UEC;9::14\n");/* MM-CCC-AddCameraBBS-201800607-00+ */
+					
 					goto nrt_del_req;
 				}
 			}
@@ -462,8 +454,7 @@ int cam_flash_apply_setting(struct cam_flash_ctrl *fctrl,
 					if (rc) {
 						CAM_ERR(CAM_FLASH,
 							"Fire Torch Failed");
-                        printk("BBox;%s:fire torch fail\n", __func__);/* MM-CCC-AddCameraBBS-201800607-00+ */
-						printk("BBox::UEC;9::14\n");/* MM-CCC-AddCameraBBS-201800607-00+ */
+
 						goto nrt_del_req;
 					}
 
@@ -478,8 +469,7 @@ int cam_flash_apply_setting(struct cam_flash_ctrl *fctrl,
 					CAM_ERR(CAM_FLASH,
 						"Flash off failed: %d",
 						rc);
-                    printk("BBox;%s:flash off fail\n", __func__);/* MM-CCC-AddCameraBBS-201800607-00+ */
-					printk("BBox::UEC;9::14\n");/* MM-CCC-AddCameraBBS-201800607-00+ */
+
 					continue;
 				}
 				fctrl->flash_state = CAM_FLASH_STATE_START;
@@ -504,8 +494,7 @@ int cam_flash_apply_setting(struct cam_flash_ctrl *fctrl,
 					CAM_ERR(CAM_FLASH,
 						"Flash ON failed: rc= %d",
 						rc);
-                    printk("BBox;%s:flash on fail\n", __func__);/* MM-CCC-AddCameraBBS-201800607-00+ */
-					printk("BBox::UEC;9::14\n");/* MM-CCC-AddCameraBBS-201800607-00+ */
+
 					goto apply_setting_err;
 				}
 			}
@@ -520,8 +509,7 @@ int cam_flash_apply_setting(struct cam_flash_ctrl *fctrl,
 					CAM_ERR(CAM_FLASH,
 						"Torch ON failed: rc= %d",
 						rc);
-                    printk("BBox;%s:torch on fail\n", __func__);/* MM-CCC-AddCameraBBS-201800607-00+ */
-                    printk("BBox::UEC;9::14\n");/* MM-CCC-AddCameraBBS-201800607-00+ */
+
 					goto apply_setting_err;
 				}
 			}
@@ -532,8 +520,7 @@ int cam_flash_apply_setting(struct cam_flash_ctrl *fctrl,
 			if (rc) {
 				CAM_ERR(CAM_FLASH,
 					"Flash off failed %d", rc);
-                printk("BBox;%s:flash off fail\n", __func__);/* MM-CCC-AddCameraBBS-201800607-00+ */
-                printk("BBox::UEC;9::14\n");/* MM-CCC-AddCameraBBS-201800607-00+ */
+
 				goto apply_setting_err;
 			}
 		} else if (flash_data->opcode == CAM_PKT_NOP_OPCODE) {

@@ -1005,7 +1005,6 @@ int dsi_display_set_power(struct drm_connector *connector,
 		return -EINVAL;
 	}
 
-	printk("BBox::EHCS;51301:i:LCM Power Mode=%d\n", power_mode);
 	pr_err("Panel Power Mode (%d)\n",power_mode);
 
 	switch (power_mode) {

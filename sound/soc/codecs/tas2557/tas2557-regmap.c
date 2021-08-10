@@ -74,11 +74,6 @@
 #define LOW_TEMPERATURE_GAIN 6
 #define LOW_TEMPERATURE_COUNTER 12
 
-/* for BBS log */
-#define SMARTAMP_READ_ID_FAIL	do {printk("BBox;%s: SmartAmp read ID fail\n", __func__); printk("BBox::UEC;50::0\n");} while (0)
-#define SMARTAMP_PROBE_FAIL	do {printk("BBox;%s: SmartAmp probe fail\n", __func__); printk("BBox::UEC;50::1\n");} while (0)
-#define SMARTAMP_BUS_READ_FAIL	do {printk("BBox;%s: SmartAmp I2C read fail\n", __func__); printk("BBox::UEC;50::2\n");} while (0)
-#define SMARTAMP_BUS_WRITE_FAIL	do {printk("BBox;%s: SmartAmp I2C write fail\n", __func__); printk("BBox::UEC;50::3\n");} while (0)
 /* for represent that repeatedly call read/write function
 *  if 0, represent one time call read/write function
 *  else, represent repeatedly call read/write function
@@ -170,7 +165,6 @@ static int tas2557_dev_read(
 			dev_err(pTAS2557->dev, "%s, %d, I2C error %d\n",
 				__func__, __LINE__, nResult);
 			pTAS2557->mnErrCode |= ERROR_DEVA_I2C_COMM;
-			SMARTAMP_BUS_READ_FAIL;
 			goto end;
 		} else
 			pTAS2557->mnErrCode &= ~ERROR_DEVA_I2C_COMM;
@@ -222,9 +216,6 @@ static int tas2557_dev_write(
 			dev_err(pTAS2557->dev, "%s, %d, I2C error %d\n",
 				__func__, __LINE__, nResult);
 			pTAS2557->mnErrCode |= ERROR_DEVA_I2C_COMM;
-			if (rw_loop_f == 0) {	/* avoid repeatedly printing BBS log */
-				SMARTAMP_BUS_WRITE_FAIL;
-			}
 		} else
 			pTAS2557->mnErrCode &= ~ERROR_DEVA_I2C_COMM;
 	}
@@ -266,7 +257,6 @@ static int tas2557_dev_bulk_read(
 			dev_err(pTAS2557->dev, "%s, %d, I2C error %d\n",
 				__func__, __LINE__, nResult);
 			pTAS2557->mnErrCode |= ERROR_DEVA_I2C_COMM;
-			SMARTAMP_BUS_READ_FAIL;
 		} else
 			pTAS2557->mnErrCode &= ~ERROR_DEVA_I2C_COMM;
 	}
@@ -308,7 +298,6 @@ static int tas2557_dev_bulk_write(
 			dev_err(pTAS2557->dev, "%s, %d, I2C error %d\n",
 				__func__, __LINE__, nResult);
 			pTAS2557->mnErrCode |= ERROR_DEVA_I2C_COMM;
-			SMARTAMP_BUS_WRITE_FAIL;
 		} else
 			pTAS2557->mnErrCode &= ~ERROR_DEVA_I2C_COMM;
 	}
@@ -832,7 +821,6 @@ static int tas2557_i2c_probe(struct i2c_client *pClient,
 	} else {
 		nResult = -ENOTSUPP;
 		dev_info(pTAS2557->dev, "unsupport Silicon 0x%x\n", pTAS2557->mnPGID);
-		SMARTAMP_READ_ID_FAIL;
 		goto err;
 	}
 
@@ -892,10 +880,6 @@ static int tas2557_i2c_probe(struct i2c_client *pClient,
 
 	nResult = request_firmware_nowait(THIS_MODULE, 1, pFWName,
 		pTAS2557->dev, GFP_KERNEL, pTAS2557, tas2557_fw_ready);
-	if (nResult < 0) {
-		SMARTAMP_PROBE_FAIL;
-	}
-
 err:
 
 	return nResult;

@@ -727,7 +727,6 @@ void himax_wake_check_func(void)
     switch (ret_event)
     {
     case EV_GESTURE_PWR:
-        printk("BBox::STD;140700|Touch|DoubleTap|All|0\n");
         KEY_EVENT = KEY_WAKEUP;
         input_set_capability(private_ts->input_dev, EV_KEY, KEY_EVENT);
         break;
@@ -2570,7 +2569,6 @@ int himax_chip_common_resume(struct himax_ts_data *ts)
 #endif
 
     I("%s: enter \n", __func__);
-    printk("BBox::STD;140700|Touch|Resume|All|0\n");
     if(ts->suspended == false)
     {
         I("%s: It had entered resume,skip this step \n", __func__);
@@ -2635,7 +2633,6 @@ int himax_chip_common_resume(struct himax_ts_data *ts)
     queue_delayed_work(ts->himax_chip_monitor_wq, &ts->himax_chip_monitor, g_chip_monitor_data->HX_POLLING_TIMER*HZ); //for ESD solution
 #endif
     I("%s: END \n", __func__);
-    printk("BBox::STD;140700|Touch|Resume|All|1\n");
     return 0;
 }
 

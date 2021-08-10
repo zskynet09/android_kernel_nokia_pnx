@@ -667,7 +667,6 @@ void nvt_ts_wakeup_gesture_report(uint8_t gesture_id, uint8_t *data)
 			keycode = gesture_key_array[2];
 			break;
 		case GESTURE_DOUBLE_CLICK:
-			printk("BBox::STD;140700|Touch|DoubleTap|All|0\n");
 			NVT_LOG("Gesture : Double Click.\n");
 			keycode = gesture_key_array[3];
 			//input_set_capability(ts->input_dev, EV_KEY, keycode);
@@ -1657,8 +1656,6 @@ static int32_t nvt_ts_resume(struct device *dev)
 
 	mutex_lock(&ts->lock);
 
-	printk("BBox::STD;140700|Touch|Resume|All|0\n");
-
 	NVT_LOG("Resume start\n");
 
 	// please make sure display reset(RESX) sequence and mipi dsi cmds sent before this
@@ -1689,8 +1686,6 @@ static int32_t nvt_ts_resume(struct device *dev)
 	mutex_unlock(&ts->lock);
 
 	NVT_LOG("Resume end\n");
-
-	printk("BBox::STD;140700|Touch|Resume|All|1\n");
 
 	return 0;
 }
@@ -1768,7 +1763,6 @@ void touch_tpfwver_read_nvt(char *fw_ver)
 unsigned int touch_double_tap_read_nvt(void)
 {
 	NVT_LOG("%s, gdouble_tap_enable_nvt = %d", __func__, gdouble_tap_enable_nvt);
-	printk("BBox::STD;151300|Novatek-V%02d\n", ts->fw_ver);
 	get_Display_ID();
 	return gdouble_tap_enable_nvt;;
 }

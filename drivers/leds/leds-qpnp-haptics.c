@@ -176,8 +176,6 @@
 #define HAP_WAVE_PLAY_RATE_US_MAX	20475
 #define HAP_MAX_PLAY_TIME_MS		15000
 
-#define WRITE_REGISTER_ERROR(addr, rc)	do {printk("BBox;%s: write reg=0x%x error, rc=%d\n", __func__, addr, rc); printk("BBox::UEC;19::7\n");} while (0)
-
 enum hap_brake_pat {
 	NO_BRAKE = 0,
 	BRAKE_VMAX_4,
@@ -419,10 +417,6 @@ static int qpnp_haptics_write_reg(struct hap_chip *chip, u16 addr, u8 *val,
 	if (rc < 0)
 		pr_err("Error writing address: 0x%x - rc %d\n", addr, rc);
 
-	if (rc < 0) {
-		WRITE_REGISTER_ERROR(addr, rc);
-	}
-
 out:
 	spin_unlock_irqrestore(&chip->bus_lock, flags);
 	return rc;
@@ -448,10 +442,6 @@ static int qpnp_haptics_masked_write_reg(struct hap_chip *chip, u16 addr,
 	rc = regmap_update_bits(chip->regmap, addr, mask, val);
 	if (rc < 0)
 		pr_err("Error writing address: 0x%x - rc %d\n", addr, rc);
-
-	if (rc < 0) {
-		WRITE_REGISTER_ERROR(addr, rc);
-	}
 
 	if (!rc)
 		pr_debug("wrote to address 0x%x = 0x%x\n", addr, val);

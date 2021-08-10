@@ -99,10 +99,6 @@ static int tas2557_load_configuration(struct tas2557_priv *pTAS2557,
 #define TAS2557_BLOCK_CFG_POST			0x05
 #define TAS2557_BLOCK_CFG_POST_POWER	0x06
 
-/* for BBS log */
-#define SMARTAMP_POWER_ON_FAIL	do {printk("BBox;%s: SmartAmp power on fail\n", __func__); printk("BBox::UEC;50::4\n");} while (0)
-#define SMARTAMP_POWER_OFF_FAIL	do {printk("BBox;%s: SmartAmp power off fail\n", __func__); printk("BBox::UEC;50::5\n");} while (0)
-
 char *tas2557_fw_bin;
 
 static unsigned int p_tas2557_default_data[] = {
@@ -516,14 +512,12 @@ int tas2557_enable(struct tas2557_priv *pTAS2557, bool bEnable)
 			dev_dbg(pTAS2557->dev, "Enable: load startup sequence\n");
 			nResult = tas2557_dev_load_data(pTAS2557, p_tas2557_startup_data);
 			if (nResult < 0) {
-				SMARTAMP_POWER_ON_FAIL;
 				goto end;
 			}
 			if (pProgram->mnAppMode == TAS2557_APP_TUNINGMODE) {
 				nResult = tas2557_checkPLL(pTAS2557);
 				if (nResult < 0) {
 					nResult = tas2557_dev_load_data(pTAS2557, p_tas2557_shutdown_data);
-					SMARTAMP_POWER_ON_FAIL;
 					goto end;
 				}
 			}
@@ -555,7 +549,6 @@ int tas2557_enable(struct tas2557_priv *pTAS2557, bool bEnable)
 			}
 			nResult = tas2557_dev_load_data(pTAS2557, p_tas2557_shutdown_data);
 			if (nResult < 0) {
-				SMARTAMP_POWER_OFF_FAIL;
 				goto end;
 			}
 

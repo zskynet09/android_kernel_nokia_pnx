@@ -12,9 +12,6 @@
 
 #include <linux/sort.h>
 #include "fg-core.h"
-#if defined(CONFIG_FIH_BATTERY)
-#include "fih-battery-bbs.h"
-#endif /* CONFIG_FIH_BATTERY */
 
 void fg_circ_buf_add(struct fg_circ_buf *buf, int val)
 {
@@ -413,9 +410,6 @@ int fg_read(struct fg_chip *chip, int addr, u8 *val, int len)
 	if (rc < 0) {
 		dev_err(chip->dev, "regmap_read failed for address %04x rc=%d\n",
 			addr, rc);
-#if defined(CONFIG_FIH_BATTERY) && defined(BBS_LOG)
-		BBS_FG_READ_FAILED();
-#endif /* CONFIG_FIH_BATTERY */
 		return rc;
 	}
 
@@ -465,10 +459,6 @@ int fg_write(struct fg_chip *chip, int addr, u8 *val, int len)
 	}
 out:
 	mutex_unlock(&chip->bus_lock);
-#if defined(CONFIG_FIH_BATTERY) && defined(BBS_LOG)
-	if (rc < 0)
-		BBS_FG_WRITE_FAILED();
-#endif /* CONFIG_FIH_BATTERY */
 	return rc;
 }
 
@@ -502,10 +492,6 @@ int fg_masked_write(struct fg_chip *chip, int addr, u8 mask, u8 val)
 		mask, val);
 out:
 	mutex_unlock(&chip->bus_lock);
-#if defined(CONFIG_FIH_BATTERY) && defined(BBS_LOG)
-	if (rc < 0)
-		BBS_FG_WRITE_FAILED();
-#endif /* CONFIG_FIH_BATTERY */
 	return rc;
 }
 

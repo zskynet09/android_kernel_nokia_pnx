@@ -24,9 +24,6 @@
 #include "battery.h"
 #include "step-chg-jeita.h"
 #include "storm-watch.h"
-#if defined(CONFIG_FIH_BATTERY)
-#include "fih-battery-bbs.h"
-#endif /* CONFIG_FIH_BATTERY */
 
 #define smblib_err(chg, fmt, ...)		\
 	pr_err("%s: %s: " fmt, chg->name,	\
@@ -68,10 +65,6 @@ int smblib_read(struct smb_charger *chg, u16 addr, u8 *val)
 	rc = regmap_read(chg->regmap, addr, &temp);
 	if (rc >= 0)
 		*val = (u8)temp;
-#if defined(CONFIG_FIH_BATTERY) && defined(BBS_LOG)
-	else
-		BBS_CHARGER_READ_FAILED();
-#endif /* CONFIG_FIH_BATTERY */
 
 	return rc;
 }
@@ -79,16 +72,7 @@ int smblib_read(struct smb_charger *chg, u16 addr, u8 *val)
 int smblib_multibyte_read(struct smb_charger *chg, u16 addr, u8 *val,
 				int count)
 {
-#if defined(CONFIG_FIH_BATTERY) && defined(BBS_LOG)
-	int rc = 0;
-
-	rc = regmap_bulk_read(chg->regmap, addr, val, count);
-	if (rc < 0)
-		BBS_CHARGER_READ_FAILED();
-	return rc;
-#else
 	return regmap_bulk_read(chg->regmap, addr, val, count);
-#endif /* CONFIG_FIH_BATTERY */
 }
 
 int smblib_masked_write(struct smb_charger *chg, u16 addr, u8 mask, u8 val)
@@ -106,10 +90,6 @@ int smblib_masked_write(struct smb_charger *chg, u16 addr, u8 mask, u8 val)
 
 unlock:
 	mutex_unlock(&chg->write_lock);
-#if defined(CONFIG_FIH_BATTERY) && defined(BBS_LOG)
-	if (rc < 0)
-		BBS_CHARGER_WRITE_FAILED();
-#endif /* CONFIG_FIH_BATTERY */
 	return rc;
 }
 
@@ -129,10 +109,6 @@ int smblib_write(struct smb_charger *chg, u16 addr, u8 val)
 
 unlock:
 	mutex_unlock(&chg->write_lock);
-#if defined(CONFIG_FIH_BATTERY) && defined(BBS_LOG)
-	if (rc < 0)
-		BBS_CHARGER_WRITE_FAILED();
-#endif /* CONFIG_FIH_BATTERY */
 	return rc;
 }
 
@@ -3527,10 +3503,6 @@ irqreturn_t smblib_handle_debug(int irq, void *data)
 	struct smb_charger *chg = irq_data->parent_data;
 
 	smblib_dbg(chg, PR_INTERRUPT, "IRQ: %s\n", irq_data->name);
-#if defined(CONFIG_FIH_BATTERY) && defined(BBS_LOG)
-	if (!strcmp(irq_data->name, "usbin-ov"))
-		BBS_CHARGER_OVP();
-#endif /* CONFIG_FIH_BATTERY */
 	return IRQ_HANDLED;
 }
 
@@ -3620,10 +3592,6 @@ irqreturn_t smblib_handle_batt_psy_changed(int irq, void *data)
 	struct smb_charger *chg = irq_data->parent_data;
 
 	smblib_dbg(chg, PR_INTERRUPT, "IRQ: %s\n", irq_data->name);
-#if defined(CONFIG_FIH_BATTERY) && defined(BBS_LOG)
-	if (!strcmp(irq_data->name, "bat-therm-or-id-missing"))
-		BBS_CHARGER_BATTERY_MISS();
-#endif /* CONFIG_FIH_BATTERY */
 	power_supply_changed(chg->batt_psy);
 	return IRQ_HANDLED;
 }
@@ -4883,9 +4851,6 @@ irqreturn_t smblib_handle_switcher_power_ok(int irq, void *data)
 		/* This could be a weak charger reduce ICL */
 		if (!is_client_vote_enabled(chg->usb_icl_votable,
 						WEAK_CHARGER_VOTER)) {
-#if defined(CONFIG_FIH_BATTERY) && defined(BBS_LOG)
-			BBS_CHARGER_WEAK();
-#endif
 			smblib_err(chg,
 				"Weak charger detected: voting %dmA ICL\n",
 				*chg->weak_chg_icl_ua / 1000);
@@ -5594,11 +5559,7 @@ static void info_update_power_supply(struct smb_charger *chg)
 	}
 	n += sprintf(buf + n, "}");
 
-#if defined(BBS_LOG)
-	pr_err("BBox::EHCS;51600:i:info_psy:%s\n", buf);
-#else
 	pr_err("info_psy:%s\n", buf);
-#endif
 }
 
 static void info_dump_status(struct smb_charger *chg)

@@ -56,12 +56,6 @@ extern struct fih_touch_cb touch_cb;
 #define MAX_PANEL_JITTER		10
 #define DEFAULT_PANEL_PREFILL_LINES	25
 
-#define BBOX_LCM_DISPLAY_ON_FAIL do {printk("BBox;%s: Display on fail!\n", __func__); printk("BBox::UEC;0::2\n");} while (0);
-#define BBOX_LCM_DISPLAY_OFF_FAIL do {printk("BBox;%s: Display off fail!\n", __func__); printk("BBox::UEC;0::3\n");} while (0);
-#define BBOX_LCM_TE_FAIL do {printk("BBox;%s: TE Request IRQ fail!\n", __func__); printk("BBox::UEC;0::4\n");} while (0);
-#define BBOX_LCM_MIPI_TRANSFER_FAIL do {printk("BBox;%s: MIPI interface unworkable!\n", __func__); printk("BBox::UEC;0::5\n");} while (0);
-#define BBOX_LCM_POWER_STATUS_FAIL do {printk("BBox;%s: Power status fail!\n", __func__); printk("BBox::UEC;0::6\n");} while (0);
-
 enum dsi_dsc_ratio_type {
 	DSC_8BPC_8BPP,
 	DSC_10BPC_8BPP,
@@ -726,7 +720,6 @@ error_disable_gpio:
 
 error_disable_vregs:
 	(void)dsi_pwr_enable_regulator(&panel->power_info, false);
-	BBOX_LCM_POWER_STATUS_FAIL;
 
 exit:
 	pr_err("--\n");
@@ -767,7 +760,6 @@ static int dsi_panel_power_off(struct dsi_panel *panel)
 	rc = dsi_pwr_enable_regulator(&panel->power_info, false);
 	if (rc) {
 		pr_err("[%s] failed to enable vregs, rc=%d\n", panel->name, rc);
-		BBOX_LCM_POWER_STATUS_FAIL;
 	}
 
 #ifdef CONFIG_DRM_DSI_CUSTOMIZE
@@ -817,7 +809,6 @@ static int dsi_panel_tx_cmd_set(struct dsi_panel *panel,
 		if (len < 0) {
 			rc = len;
 			pr_err("failed to set cmds(%d), rc=%d\n", type, rc);
-			BBOX_LCM_MIPI_TRANSFER_FAIL;
 			goto error;
 		}
 		if (cmds->post_wait_ms)
@@ -4148,7 +4139,6 @@ int dsi_panel_enable(struct dsi_panel *panel)
 	if (rc) {
 		pr_err("[%s] failed to send DSI_CMD_SET_ON cmds, rc=%d\n",
 		       panel->name, rc);
-		BBOX_LCM_DISPLAY_ON_FAIL;
 	}
 	panel->panel_initialized = true;
 #ifdef CONFIG_AOD_FEATURE
@@ -4233,7 +4223,6 @@ int dsi_panel_disable(struct dsi_panel *panel)
 		if (rc) {
 			pr_err("[%s] failed to send DSI_CMD_SET_OFF cmds, rc=%d\n",
 					panel->name, rc);
-			BBOX_LCM_DISPLAY_OFF_FAIL;
 			goto error;
 		}
 	}

@@ -42,8 +42,6 @@ static int32_t cam_qup_i2c_rxdata(
     /* MM-CCC-AddCameraBBS-201800607-00*{ */
 	if (rc < 0) {
 		CAM_ERR(CAM_SENSOR, "failed 0x%x", saddr);
-		printk("BBox;%s:fail\n", __func__);
-		printk("BBox::UEC;9::1\n");
 	}
     /* MM-CCC-AddCameraBBS-201800607-00*} */
 	return rc;
@@ -68,8 +66,6 @@ static int32_t cam_qup_i2c_txdata(
     /* MM-CCC-AddCameraBBS-201800607-00*{ */
 	if (rc < 0) {
 		CAM_ERR(CAM_SENSOR, "failed 0x%x", saddr);
-		printk("BBox;%s:fail\n", __func__);
-		printk("BBox::UEC;9::1\n");
 	}
     /* MM-CCC-AddCameraBBS-201800607-0*} */
 	return rc;

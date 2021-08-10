@@ -3783,7 +3783,6 @@ void touch_tpfwimver_read(char *fw_ver)
 unsigned int touch_double_tap_read(void)
 {
 	I("%s: FIH read double tap = %d \n", __func__, double_tap_enable);
-	printk("BBox::STD;151300|Himax-0x%2.2X_0x%2.2X\n", ic_data->vendor_fw_ver, ic_data->vendor_touch_cfg_ver); // For touch Stats D
 	get_Display_ID(); //For Display Stats D
 	return double_tap_enable;
 }
