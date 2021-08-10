@@ -155,7 +155,6 @@ int32_t CTP_I2C_READ(struct i2c_client *client, uint16_t address, uint8_t *buf, 
 
 	if (unlikely(retries == 5)) {
 		NVT_ERR("error, ret=%d\n", ret);
-		BBOX_TOUCH_I2C_READ_FAIL
 		ret = -EIO;
 	}
 
@@ -188,7 +187,6 @@ int32_t CTP_I2C_WRITE(struct i2c_client *client, uint16_t address, uint8_t *buf,
 
 	if (unlikely(retries == 5)) {
 		NVT_ERR("error, ret=%d\n", ret);
-		BBOX_TOUCH_I2C_WRITE_FAIL
 		ret = -EIO;
 	}
 
@@ -1523,7 +1521,6 @@ err_check_functionality_failed:
 err_gpio_config_failed:
 	i2c_set_clientdata(client, NULL);
 	kfree(ts);
-	BBOX_TOUCH_PROBE_FAIL
 	return ret;
 }
 

@@ -841,35 +841,30 @@ int32_t Update_Firmware(void)
 	// Step 1 : initial bootloader
 	ret = Init_BootLoader();
 	if (ret) {
-		BBOX_TOUCH_FIRMWARE_UPDATE_FAIL
 		return ret;
 	}
 
 	// Step 2 : Resume PD
 	ret = Resume_PD();
 	if (ret) {
-		BBOX_TOUCH_FIRMWARE_UPDATE_FAIL
 		return ret;
 	}
 
 	// Step 3 : Erase
 	ret = Erase_Flash();
 	if (ret) {
-		BBOX_TOUCH_FIRMWARE_UPDATE_FAIL
 		return ret;
 	}
 
 	// Step 4 : Program
 	ret = Write_Flash();
 	if (ret) {
-		BBOX_TOUCH_FIRMWARE_UPDATE_FAIL
 		return ret;
 	}
 
 	// Step 5 : Verify
 	ret = Verify_Flash();
 	if (ret) {
-		BBOX_TOUCH_FIRMWARE_UPDATE_FAIL
 		return ret;
 	}
 

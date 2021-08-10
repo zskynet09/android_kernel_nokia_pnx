@@ -207,7 +207,6 @@ int i2c_himax_read(struct i2c_client *client, uint8_t command, uint8_t *data, ui
           __func__, toRetry);
         i2c_error_count = toRetry;
 		mutex_unlock(&private_ts->rw_lock);
-        BBOX_TOUCH_I2C_READ_FAIL
         return -EIO;
     }
     mutex_unlock(&private_ts->rw_lock);
@@ -247,7 +246,6 @@ int i2c_himax_write(struct i2c_client *client, uint8_t command, uint8_t *data, u
           __func__, toRetry);
         i2c_error_count = toRetry;
 		mutex_unlock(&private_ts->rw_lock);
-        BBOX_TOUCH_I2C_WRITE_FAIL
         return -EIO;
     }
     mutex_unlock(&private_ts->rw_lock);

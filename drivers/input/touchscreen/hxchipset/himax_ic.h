@@ -23,11 +23,6 @@
 extern u8 HX_ESD_RESET_ACTIVATE;
 #endif
 
-#define BBOX_TOUCH_PROBE_FAIL do {printk("BBox::UEC;7::0\n");} while (0);
-#define BBOX_TOUCH_I2C_READ_FAIL do {printk("BBox::UEC;7::1\n");} while (0);
-#define BBOX_TOUCH_I2C_WRITE_FAIL do {printk("BBox::UEC;7::2\n");} while (0);
-#define BBOX_TOUCH_FIRMWARE_UPDATE_FAIL do {printk("BBox::UEC;7::6\n");} while (0);
-
 enum fw_image_type
 {
     fw_image_32k	= 0x01,

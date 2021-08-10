@@ -1792,7 +1792,6 @@ static void himax_update_register(struct work_struct *work)
 #endif
 	if (i_get_FW() != 0)
 	{
-		BBOX_TOUCH_FIRMWARE_UPDATE_FAIL
 		I("%s:i_get_FW() != 0\n", __func__);
 		if(g_f_boot_finish == 0) {
 			I("%s:g_f_boot_finish = 0\n", __func__);
@@ -1822,7 +1821,6 @@ static void himax_update_register(struct work_struct *work)
 UPDATE_FW:
 	if (i_update_FW() <= 0) {
 		I("Auto update FW fail!\n");
-		BBOX_TOUCH_FIRMWARE_UPDATE_FAIL
 	} else {
 		I("It have Updated\n");
 		fw_upgrade_flag = 1;
@@ -2351,7 +2349,6 @@ err_dt_platform_data_fail:
 err_alloc_data_failed:
 err_check_functionality_failed:
     probe_fail_flag = 1;
-    BBOX_TOUCH_PROBE_FAIL
     return err;
 
 }

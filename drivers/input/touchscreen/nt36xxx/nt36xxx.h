@@ -2,7 +2,7 @@
  * Copyright (C) 2010 - 2017 Novatek, Inc.
  *
  * $Revision: 22429 $
- * $Date: 2018-01-30 19:42:59 +0800 (?±ä?, 30 ä¸€??2018) $
+ * $Date: 2018-01-30 19:42:59 +0800 (?ï¿½ï¿½?, 30 ä¸€??2018) $
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -88,12 +88,6 @@ extern const uint16_t gesture_key_array[];
 //---ESD Protect.---
 #define NVT_TOUCH_ESD_PROTECT 1
 #define NVT_TOUCH_ESD_CHECK_PERIOD 1500	/* ms */
-
-//---FIH BBOX ---
-#define BBOX_TOUCH_PROBE_FAIL do {printk("BBox::UEC;7::0\n");} while (0);
-#define BBOX_TOUCH_I2C_READ_FAIL do {printk("BBox::UEC;7::1\n");} while (0);
-#define BBOX_TOUCH_I2C_WRITE_FAIL do {printk("BBox::UEC;7::2\n");} while (0);
-#define BBOX_TOUCH_FIRMWARE_UPDATE_FAIL do {printk("BBox::UEC;7::6\n");} while (0);
 
 struct nvt_ts_data {
 	struct i2c_client *client;
